@@ -21,7 +21,7 @@ use App\Http\Controllers\DashboardController;
 // });
 Route::get('register',[AuthController::class,'index'])->name('register');
 Route::post('register', [AuthController::class, 'register'])->name('create.user');
-Route::get('login',[AuthController::class,'loginIndex'])->name('login');
+Route::get('login',[AuthController::class,'loginIndex'])->name('login')->middleware('redirectIfAuthenticated');
 Route::post('login', [AuthController::class, 'login'])->name('login.user');
 Route::get('cities/{state_id}', [AuthController::class, 'getCitiesByState'])->name('cities.state');
 

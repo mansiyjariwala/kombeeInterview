@@ -18,16 +18,10 @@ class RedirectIfAuthenticated
      */
     public function handle(Request $request, Closure $next, string ...$guards): Response
     {
-        // $userData = Session::get('user');
-        // dd($userData);
-        // $guards = empty($guards) ? [null] : $guards;
-
-        // foreach ($guards as $guard) {
-        //     if (Auth::guard($guard)->check()) {
-        //         return redirect(RouteServiceProvider::HOME);
-        //     }
-        // }
-
+        $userData = Session::get('user');
+        if (isset($userData)) {
+            return redirect()->route('dashboard');
+        }
         return $next($request);
     }
 }

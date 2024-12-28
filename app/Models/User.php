@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use App\Models\City;
+use App\Models\State;
 
 class User extends Authenticatable
 {
@@ -59,5 +61,16 @@ class User extends Authenticatable
     public function files()
     {
         return $this->hasMany(UserFile::class);
+    }
+
+    
+    public function state()
+    {
+        return $this->belongsTo(State::class);
+    }
+
+    public function city()
+    {
+        return $this->belongsTo(City::class);
     }
 }

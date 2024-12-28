@@ -46,7 +46,7 @@
       <aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="dark">
         <!--begin::Sidebar Brand-->
         <div class="sidebar-brand">
-            <span class="brand-text fw-light">AdminLTE 4</span>
+            <span class="brand-text fw-light">Welcome</span>
         </div>
         <!--end::Sidebar Brand-->
         <!--begin::Sidebar Wrapper-->
@@ -75,22 +75,29 @@
       <main class="app-main">
         <div class="app-content-header">
           <div class="container-fluid">
-            <table class="table table-bordered data-table" id="users-table">
+          <div class="mb-3 d-flex justify-content-between align-items-center">
+                <h2>User List</h2>
+                <a href="#" class="btn btn-primary">
+                    Create New User
+                </a>
+            </div>
+            <table class="table table-bordered data-table">
               <thead>
                 <tr>
                   <th>ID</th>
-                  <!-- <th>First Name</th>
+                  <th>First Name</th>
                   <th>Last Name</th>
                   <th>Email</th>
                   <th>Contact Number</th>
                   <th>State</th>
-                  <th>City</th> -->
+                  <th>City</th>
+                  <th>Action</th>
                 </tr>
               </thead>
             </table>
           </div>
         </div>
-      </main>
+      <!-- </main> -->
       <footer class="app-footer">
         
       </footer>
@@ -107,22 +114,22 @@ $(document).ready(function() {
         processing: true,
         serverSide: true,
         ajax: {
-            // headers: {
-            //     'Authorization': 'Bearer ' + token
-            // },
+            headers: {
+                'Authorization': 'Bearer ' + token
+            },
             type: 'GET',
             url: '{{ route('users.data') }}',
             dataType: 'json',
         },
         columns: [
-            { data: 'id', name: 'id' },
-              // { data: 'firstname', name: 'firstname' },
-              // { data: 'lastname', name: 'lastname' },
-              // { data: 'email', name: 'email' },
-              // { data: 'contact_number', name: 'contact_number' },
-              // { data: 'state', name: 'state' },
-              // { data: 'city', name: 'city' },
-            // { data: 'action', name: 'action' },
+              { data: 'id', name: 'id' },
+              { data: 'firstname', name: 'firstname' },
+              { data: 'lastname', name: 'lastname' },
+              { data: 'email', name: 'email' },
+              { data: 'contact_number', name: 'contact_number',orderable: false },
+              { data: 'state', name: 'state',orderable: true },
+              { data: 'city', name: 'city', orderable: true },
+              { data: 'action', name: 'action',orderable: false},
         ],
         dom: 'Bfrtip',
         buttons: [
