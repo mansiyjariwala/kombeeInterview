@@ -29,4 +29,6 @@ Route::get('cities/{state_id}', [AuthController::class, 'getCitiesByState'])->na
 Route::middleware('auth.token')->group(function () {
     Route::get('dashboard',[AuthController::class,'dashboard'])->name('dashboard');
     Route::get('/logout', [DashboardController::class, 'logout'])->name('logout');
+    Route::get('/users/data', [DashboardController::class, 'userData'])->name('users.data');
+
 });

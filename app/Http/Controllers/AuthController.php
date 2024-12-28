@@ -92,6 +92,7 @@ class AuthController extends Controller
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             $token = Auth::user()->createToken('API Token')->accessToken;
             Session::put('user', $user);
+            Session::put('token', $token->token);
             // return response()->json(['success' => true, 'token' => $token]);
             return response()->json(['message' => 'Login successfully!', 'token' => $token->token, 'user' => $user->roles[0]->name , 'userData' => $user], 200)->header('Authorization', 'Bearer ' . $token->token);
         }
@@ -103,10 +104,11 @@ class AuthController extends Controller
     {
         // $user = Auth::user();
         $userData = Session::get('user');
+        $token = Session::get('token');
         // dd($userData);
         if($userData)
         {
-            return view('dashboard',compact('userData'));
+            return view('dashboard',compact('userData','token'));
         }
         else
         {

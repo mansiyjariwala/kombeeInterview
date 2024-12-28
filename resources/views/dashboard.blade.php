@@ -36,6 +36,7 @@
             </li>
             <!--end::User Menu Dropdown-->
           </ul>
+
           <!--end::End Navbar Links-->
         </div>
         <!--end::Container-->
@@ -74,7 +75,19 @@
       <main class="app-main">
         <div class="app-content-header">
           <div class="container-fluid">
-
+            <table class="table table-bordered data-table" id="users-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <!-- <th>First Name</th>
+                  <th>Last Name</th>
+                  <th>Email</th>
+                  <th>Contact Number</th>
+                  <th>State</th>
+                  <th>City</th> -->
+                </tr>
+              </thead>
+            </table>
           </div>
         </div>
       </main>
@@ -82,5 +95,43 @@
         
       </footer>
     </div>
-
 @endsection
+
+@section('script')
+<script>
+$(document).ready(function() {
+    var token = `{{ $token }}`
+    
+    // var token = localStorage.getItem('token');
+    var table = $('.data-table').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: {
+            // headers: {
+            //     'Authorization': 'Bearer ' + token
+            // },
+            type: 'GET',
+            url: '{{ route('users.data') }}',
+            dataType: 'json',
+        },
+        columns: [
+            { data: 'id', name: 'id' },
+              // { data: 'firstname', name: 'firstname' },
+              // { data: 'lastname', name: 'lastname' },
+              // { data: 'email', name: 'email' },
+              // { data: 'contact_number', name: 'contact_number' },
+              // { data: 'state', name: 'state' },
+              // { data: 'city', name: 'city' },
+            // { data: 'action', name: 'action' },
+        ],
+        dom: 'Bfrtip',
+        buttons: [
+            'csv', 'excel', 'pdf'
+        ]
+    });
+
+});
+</script>
+@endsection
+
+

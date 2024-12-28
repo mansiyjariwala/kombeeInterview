@@ -84,9 +84,9 @@
                                 alert(response.message);
 
                                 // Store token and user in localStorage
-                                // localStorage.setItem('token', JSON.stringify(response.token));
-                                // localStorage.setItem('user', JSON.stringify(response.user));
-                                // localStorage.setItem('userData', JSON.stringify(response.userData));
+                                localStorage.setItem('token', JSON.stringify(response.token));
+                                localStorage.setItem('user', JSON.stringify(response.user));
+                                localStorage.setItem('userData', JSON.stringify(response.userData));
 
                                 // // Redirect to dashboard
                                 // const test = localStorage.getItem('token')
