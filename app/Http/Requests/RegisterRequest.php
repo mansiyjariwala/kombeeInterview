@@ -28,7 +28,7 @@ class RegisterRequest extends FormRequest
             'firstname' => 'required|string|max:255',
             'lastname' => 'required|string|max:255|alpha_num',
             'email' => 'required|string|email|max:255|unique:users',
-            'contact_number' => 'required|string|max:20',
+            'contact_number' => 'required|string|max:20|min:10',
             'postcode' => 'required|digits_between:1,10',
             'state' => 'required|exists:states,id',
             'city' => 'required|exists:cities,id',

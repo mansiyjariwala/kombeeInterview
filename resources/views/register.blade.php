@@ -138,7 +138,7 @@
                 contact_number: { 
                     required: true,
                     digits: true,
-                    minlength: 5, 
+                    minlength: 10, 
                     maxlength: 12
                 },
                 postcode: {
@@ -164,7 +164,7 @@
                 contact_number: { 
                     required: "Please enter your contact number.", 
                     digits: "Please enter only digits.", 
-                    minlength: "Contact number must be at least 5 digits long.", 
+                    minlength: "Contact number must be at least 10 digits long.", 
                     maxlength: "Contact number cannot exceed 12 digits." 
                 },
                 postcode: { 
