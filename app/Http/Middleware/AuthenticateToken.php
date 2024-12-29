@@ -17,19 +17,34 @@ class AuthenticateToken
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next): Response
+    public function handle(Request $request, Closure $next,string ...$roles): Response
     {
-        // return $next($request);
         $userData = Session::get('user');
         
-        if($userData)
-        {
-            return $next($request);
-            // return redirect()->route('dashboard');
-        }
-        else
-        {
+        // if($userData)
+        // {
+        //     return $next($request);
+        // }
+        // else
+        // {
+        //     return redirect()->route('login');
+        // }
+
+        $userData = Session::get('user');
+        
+        if (!$userData) {
             return redirect()->route('login');
         }
+
+        if (isset($userData->roles)) {
+            $userRoles = $userData->roles->pluck('id')->toArray();
+            // dd($roles);
+            if (!empty($roles) && !array_intersect($userRoles, $roles)) {
+                return response()->json(['message' => 'Unauthorized'], Response::HTTP_FORBIDDEN);
+            }
+        }
+
+        return $next($request);
+    
     }
 }

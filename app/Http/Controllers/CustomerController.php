@@ -3,34 +3,29 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Auth;
-use Illuminate\Support\Facades\Session;
 use DataTables;
+use App\Http\Requests\CustomerRequest;
 use App\Models\User;
+use Illuminate\Support\Facades\Session;
 
-
-class DashboardController extends Controller
+class CustomerController extends Controller
 {
-    public function logout(Request $request)
+    public function index()
     {
-        Auth::logout();
-        
-        Session::flush();
-        
-        return redirect()->route('login');
+        $token = Session::get('token');
+        $userData = Session::get('user');
+        return view('customers.index',compact('token','userData'));
     }
 
-    public function userData(Request $request)
+    public function customerData()
     {
-        $token = $request->header('Authorization');
-        $token = str_replace('Bearer ', '', $token);    
-        // dd($token);
+        // $token = $request->header('Authorization');
+        // $token = str_replace('Bearer ', '', $token);    
+        $token = Session::get('token');
         $user_data = Session::get('user');
-
-        $users = User::with('roles')->whereNotIn('id', [$user_data->id, 1])->whereDoesntHave('roles', function ($query) {
-            $query->where('name', 'Admin'); 
+        $users = User::with('roles')->whereNotIn('id', [$user_data->id, 1])->whereHas('roles', function ($query) {
+            $query->where('name', 'Customer'); 
         })->select(['id', 'firstname', 'lastname', 'email', 'contact_number', 'state_id', 'city_id']);
-        // dd($users->get());
         return DataTables::of($users)
             ->addColumn('state', function($user) {
                 return $user->state->name ?? '-' ;
@@ -47,5 +42,4 @@ class DashboardController extends Controller
             ->rawColumns(['action'])
             ->make(true);
     }
-
 }

@@ -1,16 +1,16 @@
 
 @extends('layouts.adminLte')
 
-@section('title', 'Dashboard')
+@section('title', 'Suppliers')
 
 @section('content')
       <main class="app-main">
         <div class="app-content-header">
           <div class="container-fluid">
           <div class="mb-3 d-flex justify-content-between align-items-center">
-                <h2>User List</h2>
-                <a href="#" class="btn btn-primary">
-                    Create New User
+                <h2>Supplier List</h2>
+                <a href="{{route('supplier.create')}}" class="btn btn-primary">
+                    Create New Supplier
                 </a>
             </div>
             <table class="table table-bordered data-table">
@@ -47,7 +47,7 @@ $(document).ready(function() {
                 'Authorization': 'Bearer ' + token
             },
             type: 'GET',
-            url: '{{ route('users.data') }}',
+            url: '{{ route('supplier.data') }}',
             dataType: 'json',
         },
         columns: [

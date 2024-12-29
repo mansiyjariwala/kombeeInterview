@@ -1,16 +1,16 @@
 
 @extends('layouts.adminLte')
 
-@section('title', 'Dashboard')
+@section('title', 'Customers')
 
 @section('content')
       <main class="app-main">
         <div class="app-content-header">
           <div class="container-fluid">
           <div class="mb-3 d-flex justify-content-between align-items-center">
-                <h2>User List</h2>
+                <h2>Customer List</h2>
                 <a href="#" class="btn btn-primary">
-                    Create New User
+                    Create New Customer
                 </a>
             </div>
             <table class="table table-bordered data-table">
@@ -47,7 +47,7 @@ $(document).ready(function() {
                 'Authorization': 'Bearer ' + token
             },
             type: 'GET',
-            url: '{{ route('users.data') }}',
+            url: '{{ route('customer.data') }}',
             dataType: 'json',
         },
         columns: [
@@ -69,5 +69,3 @@ $(document).ready(function() {
 });
 </script>
 @endsection
-
-

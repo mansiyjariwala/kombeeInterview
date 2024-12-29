@@ -6,7 +6,7 @@
     <link href="{{ asset('css/login.css') }}" rel="stylesheet">
 @endsection
 
-@section('scripts')
+@section('script')
     <script src="{{ asset('js/login.js') }}"></script>
 @endsection
 

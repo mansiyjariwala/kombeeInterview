@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
     
     @yield('styles')
-    @yield('scripts')
+    @yield('script')
     
     <!-- Load jQuery 3.x -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -26,6 +26,8 @@
     <!-- JS for Select2 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-beta.1/js/select2.min.js"></script>
 
+    <!--swal sweetalert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     
 
 </head>
