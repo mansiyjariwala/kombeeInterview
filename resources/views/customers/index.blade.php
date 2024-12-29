@@ -9,7 +9,7 @@
           <div class="container-fluid">
           <div class="mb-3 d-flex justify-content-between align-items-center">
                 <h2>Customer List</h2>
-                <a href="#" class="btn btn-primary">
+                <a href="{{route('customer.create')}}" class="btn btn-primary">
                     Create New Customer
                 </a>
             </div>
@@ -64,6 +64,33 @@ $(document).ready(function() {
         buttons: [
             'csv', 'excel', 'pdf'
         ]
+    });
+
+    $(document).on('click','.delete-user', function() {
+        var customerId = $(this).data('id');
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    type: "GET",
+                    headers: {
+                        'Authorization': 'Bearer ' + token
+                    },
+                    url: "{{url('api/admin/customer/destroy/')}}" + '/' + customerId,
+                    success: function (data) {
+                        table.ajax.reload();
+                    }         
+                });
+            }
+        });
     });
 
 });

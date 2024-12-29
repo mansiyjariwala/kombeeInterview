@@ -66,6 +66,32 @@ $(document).ready(function() {
         ]
     });
 
+    $(document).on('click','.delete-user', function() {
+        var supplierId = $(this).data('id');
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    type: "GET",
+                    headers: {
+                        'Authorization': 'Bearer ' + token
+                    },
+                    url: "{{url('api/admin/supplier/destroy/')}}" + '/' + supplierId,
+                    success: function (data) {
+                        table.ajax.reload();
+                    }         
+                });
+            }
+        });
+    });
+
 });
 </script>
 @endsection

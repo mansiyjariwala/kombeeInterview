@@ -33,7 +33,9 @@ class CustomerRequest extends FormRequest
                 'hobbies' => 'required|array|min:1',
                 'hobbies.*' => 'string',
                 'gender' => 'required|in:Male,Female',
-                'files.*' => 'mimes:jpeg,png,pdf|max:2048' // Example file validation (adjust as needed)
+                'files.*' => 'mimes:jpeg,png,pdf|max:2048', // Example file validation (adjust as needed)
+                'roles' => 'required|array|min:1',
+                'roles.*' => 'exists:roles,id',
             ];
     }
 }

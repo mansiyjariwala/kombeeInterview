@@ -9,6 +9,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\RolepermissionController;
 use App\Http\Middleware\AuthenticateToken;
 /*
 |--------------------------------------------------------------------------
@@ -84,6 +85,9 @@ Route::middleware('auth.token')->group(function () {
                     Route::get('/edit/{id}', [CustomerController::class,'edit'])->name('customer.edit');
                     Route::put('/{id}', [CustomerController::class,'update'])->name('customer.update');
                 });
+
+                Route::get('role-permission', [RolepermissionController::class, 'indexRole'])->name('index.role.permission');
+                Route::post('assign-permission', [RolepermissionController::class, 'store'])->name('assign.permission');
 
                 Route::get('cities/{state_id}', [AuthController::class, 'getCitiesByState'])->name('admin.cities.state');
 

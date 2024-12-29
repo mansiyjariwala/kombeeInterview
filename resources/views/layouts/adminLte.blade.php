@@ -70,6 +70,8 @@
       integrity="sha256-+uGLJmmTKOqBr+2E6KDYs/NRsHxSkONXFHUL0fy2O/4="
       crossorigin="anonymous"
     />
+
+    <link rel="stylesheet" href="//cdn.datatables.net/buttons/1.7.1/css/buttons.dataTables.min.css">
   </head>
   <!--end::Head-->
   <!--begin::Body-->
@@ -93,9 +95,9 @@
                   alt="User Image"
                 /> -->
                 <span class="d-none d-md-inline">{{$userData->firstname}} {{$userData->lastname}}</span>
-                @foreach ($userData->roles as $roles)
+                <!-- @foreach ($userData->roles as $roles)
                   <span class="d-none d-md-inline">{{$roles->name}}</span>
-                @endforeach
+                @endforeach -->
               </a>
               <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
                 <li class="user-footer">
@@ -130,12 +132,14 @@
               data-accordion="false"
             >
               <li class="nav-item">
-                <a href="#" class="nav-link active">
-                  <i class="nav-icon bi bi-speedometer"></i>
-                  <p>
-                    Dashboard
-                  </p>
-                </a>
+                @if(!(auth()->user() && auth()->user()->roles->pluck('id')->contains(1)))
+                  <a href="#" class="nav-link active">
+                    <i class="nav-icon bi bi-speedometer"></i>
+                    <p>
+                        Dashboard
+                    </p>
+                  </a>
+                @endif
                 @if(auth()->user() && auth()->user()->roles->pluck('id')->contains(1))
                   <a href="{{route('admin.role')}}" class="nav-link active">
                     <i class="nav-icon bi bi-speedometer"></i>
@@ -164,6 +168,14 @@
                       Customer
                     </p>
                   </a>
+
+                  <a href="{{route('index.role.permission')}}" class="nav-link active">
+                    <i class="nav-icon bi bi-speedometer"></i>
+                    <p>
+                      RolePermission
+                    </p>
+                  </a>
+
                 @endif  
               </li>              
             </ul>
@@ -211,6 +223,14 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
     <!-- <script src="https://cdn.datatables.net/1.11.4/js/dataTables.bootstrap5.min.js"></script> -->
+
+    <script src="//cdn.datatables.net/buttons/1.7.1/js/dataTables.buttons.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="//cdn.datatables.net/buttons/1.7.1/js/buttons.html5.min.js"></script>
+    <script src="//cdn.datatables.net/buttons/1.7.1/js/buttons.print.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.flash.min.js"></script>
     
     <script
       src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.10.1/browser/overlayscrollbars.browser.es6.min.js"

@@ -6,9 +6,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use DataTables;
 use App\Http\Requests\SupplierRequest;
+use App\Http\Requests\UpdateSupplierRequest;
 use App\Models\User;
 use App\Models\UserFile;
 use App\Models\State;
+use App\Models\City;
 use App\Models\Role;
 use Illuminate\Support\Facades\Hash;
 
@@ -37,7 +39,7 @@ class SupplierController extends Controller
             })
             ->addColumn('action', function($user) {
                 return '
-                    <a href="#" class="btn btn-sm btn-primary">Edit</a>
+                    <a href="'.route('supplier.edit', $user->id).'" class="btn btn-sm btn-primary">Edit</a>
                     <button class="btn btn-sm btn-danger delete-user" data-id="' . $user->id . '">Delete</button>
                 ';
             })
@@ -93,28 +95,25 @@ class SupplierController extends Controller
     {
         $token = Session::get('token');
         $userData = Session::get('user');
-        $role = Role::findOrFail($id);
-        return view('suppliers.edit', compact('role','token','userData'));
+        $supplier = User::findOrFail($id);
+        $states = State::all();
+        $cities = City::all();
+        $roles = Role::whereIn('name', ['Supplier'])->get();
+        return view('suppliers.edit', compact('supplier','token','userData','roles','states','cities'));
     }
 
-    public function update(SupplierRequest $request, $id)
+    public function update(UpdateSupplierRequest $request, $id)
     {
-        $role = Role::findOrFail($id);
-        $role->update($request->validated());
-        return response()->json($role, 200);
+        $user = User::findOrFail($id);
+        $user->update($request->validated());
+        return response()->json($user, 200);
     }
 
     public function destroy($id)
     {
-        $role = Role::findOrFail($id);
-        $role->users()->detach();
-        foreach ($role->users as $user) {
-            if ($user->roles()->count() === 0) {
-                $user->delete();
-            }
-        }
-        $role->delete();
+        $user = user::findOrFail($id);
+        $user->delete();
 
-        return response()->json(['message' => 'Role and related records deleted successfully.'], 204);
+        return response()->json(['message' => 'Supplier deleted successfully.'], 204);
     }
 }

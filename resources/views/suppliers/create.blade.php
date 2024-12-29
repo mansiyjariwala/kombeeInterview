@@ -7,7 +7,7 @@
         <div class="app-content-header">
             <div class="container-fluid">
                 <div class="mb-3 d-flex justify-content-between align-items-center">
-                    <h2>Add New Role</h2>
+                    <h2>Add New Supplier</h2>
                 </div>
                 <form id="createForm">
                     <div class="mb-3 form-group">
@@ -239,10 +239,11 @@
                     success: function(response) {
                         console.log({ response });
                         alert("You have successfully created supplier");
+                        window.location.href = "{{route('admin.supplier')}}"
                     },
                     error: function(xhr) {
                         console.log("Error:", xhr.responseJSON.message);
-                        alert('Registration failed. ' + xhr.responseJSON.message);
+                        alert('supplier create failed. ' + xhr.responseJSON.message);
                     }
                 });
             }
