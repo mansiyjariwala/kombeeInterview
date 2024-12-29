@@ -19,8 +19,23 @@ class RedirectIfAuthenticated
     public function handle(Request $request, Closure $next, string ...$guards): Response
     {
         $userData = Session::get('user');
+        if(isset($userData->roles))
+        {
+            $roleIds = $userData->roles->pluck('id')->toArray(); // Extract all role IDs into a new array
+            if (isset($roleIds) && in_array(1, $roleIds)) {
+                $role = "admin";
+            }
+        }
+
         if (isset($userData)) {
-            return redirect()->route('dashboard');
+            if($role == "admin")
+            {
+                return redirect()->route('admin.dashboard');
+            }
+            else
+            {
+                return redirect()->route('dashboard');
+            }
         }
         return $next($request);
     }

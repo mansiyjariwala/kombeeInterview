@@ -82,17 +82,19 @@
 
                                 // Show a success alert
                                 alert(response.message);
-
+                                var userRole = response.user
+                                console.log({userRole});
+                                
                                 // Store token and user in localStorage
-                                localStorage.setItem('token', JSON.stringify(response.token));
-                                localStorage.setItem('user', JSON.stringify(response.user));
-                                localStorage.setItem('userData', JSON.stringify(response.userData));
+                                // localStorage.setItem('token', JSON.stringify(response.token));
+                                // localStorage.setItem('user', JSON.stringify(response.user));
+                                // localStorage.setItem('userData', JSON.stringify(response.userData));
 
                                 // // Redirect to dashboard
                                 // const test = localStorage.getItem('token')
                                 // console.log({test});
                                 
-                                window.location.href = "{{route('dashboard')}}";
+                                window.location.href = userRole == 'Admin' ? "{{route('admin.dashboard')}}" : "{{route('dashboard')}}";
                             },
                             error: function(response) {
                                 console.log("response",response);

@@ -26,7 +26,6 @@ class AuthenticateToken
         {
             return $next($request);
             // return redirect()->route('dashboard');
-
         }
         else
         {

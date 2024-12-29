@@ -23,7 +23,7 @@ class DashboardController extends Controller
     public function userData(Request $request)
     {
         $token = $request->header('Authorization');
-        $token = str_replace('Bearer ', '', $token);
+        $token = str_replace('Bearer ', '', $token);    
         // dd($token);
         $user_data = Session::get('user');
 

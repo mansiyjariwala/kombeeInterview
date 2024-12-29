@@ -100,8 +100,8 @@
 <script>
     $(document).ready(function() {
         $('#roles').select2({
-            placeholder: "Select roles", // Optional placeholder
-            allowClear: true            // Adds a clear button
+            placeholder: "Select roles",
+            allowClear: true
         });
 
         // Handle state-city dependency
@@ -199,40 +199,64 @@
             }
         });
 
-        // Submit the form via AJAX
+        
         $('#registerForm').on('submit', function(e) {
             e.preventDefault();
             const test = $('#files')[0].files
-            console.log({test});
+            const formData = new FormData();
             
+            formData.append('firstname', $('#firstname').val());
+            formData.append('lastname', $('#lastname').val());
+            formData.append('email', $('#email').val());
+            formData.append('contact_number', $('#contact_number').val());
+            formData.append('postcode', $('#postcode').val());
+            formData.append('state', $('#state').val());
+            formData.append('city', $('#city').val());
+            formData.append('password', $('#password').val());
+            formData.append('password_confirmation', $('#password-confirm').val());
+            formData.append('gender', $('input[name="gender"]:checked').val());
+
+            $('input[name="hobbies[]"]:checked').each(function() {
+                formData.append('hobbies[]', $(this).val());
+            });
+
+            const roles = $('#roles').val();
+            roles.forEach(function(role) {
+                formData.append('roles[]', role);
+            });
+
+            const files = $('#files')[0].files;
+            for (let i = 0; i < files.length; i++) {
+                formData.append('files[]', files[i]);
+            }
 
             if ($(this).valid()) {
                 $.ajax({
                     method: "POST",
                     url: "{{ route('create.user') }}",
-                    data: {
-                        firstname: $('#firstname').val(),
-                        lastname: $('#lastname').val(),
-                        email: $('#email').val(),
-                        contact_number: $('#contact_number').val(),
-                        postcode: $('#postcode').val(),
-                        state: $('#state').val(),
-                        city: $('#city').val(),
-                        password: $('#password').val(),
-                        password_confirmation: $('#password-confirm').val(),
-                        gender: $('input[name="gender"]:checked').val(),
-                        hobbies: $('input[name="hobbies[]"]:checked').map(function() { return $(this).val(); }).get(),
-                        roles: $('#roles').val()
-                        // files: $('#files')[0].files
-                    },
+                    data: formData,
+                    processData: false,
+                    contentType: false,
                     success: function(response) {
-                        console.log({response});
-                        
-                        alert("You are registered successfully! , You can check your mail");
-                        // window.location.href = '/login';
+                        console.log({ response });
+                        alert("You are registered successfully! Check your email.");
+                        $.ajax({
+                            method: "GET",
+                            url: "{{ route('dashboard') }}",
+                            headers: {
+                                "Authorization": "Bearer " + response.token 
+                            },
+                            success: function(dashboardResponse) {                                
+                                window.location.href = "{{ route('dashboard') }}";
+                            },
+                            error: function(xhr) {
+                                console.log("Error:", xhr.responseJSON.message);
+                                alert('Failed to load the dashboard.');
+                            }
+                        });
                     },
                     error: function(xhr) {
-                        console.log("in error",xhr.responseJSON.message);
+                        console.log("Error:", xhr.responseJSON.message);
                         alert('Registration failed. ' + xhr.responseJSON.message);
                     }
                 });

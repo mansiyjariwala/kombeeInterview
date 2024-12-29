@@ -17,11 +17,6 @@
           <ul class="navbar-nav ms-auto">
             <li class="nav-item dropdown user-menu">
               <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                <!-- <img
-                  src="../../dist/assets/img/user2-160x160.jpg"
-                  class="user-image rounded-circle shadow"
-                  alt="User Image"
-                /> -->
                 <span class="d-none d-md-inline">{{$userData->firstname}} {{$userData->lastname}}</span>
                 @foreach ($userData->roles as $roles)
                   <span class="d-none d-md-inline">{{$roles->name}}</span>
@@ -72,70 +67,16 @@
           </nav>
         </div>
       </aside>
-      <main class="app-main">
-        <div class="app-content-header">
-          <div class="container-fluid">
-          <div class="mb-3 d-flex justify-content-between align-items-center">
-                <h2>User List</h2>
-                <a href="#" class="btn btn-primary">
-                    Create New User
-                </a>
-            </div>
-            <table class="table table-bordered data-table">
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>First Name</th>
-                  <th>Last Name</th>
-                  <th>Email</th>
-                  <th>Contact Number</th>
-                  <th>State</th>
-                  <th>City</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-            </table>
-          </div>
-        </div>
-      <!-- </main> -->
-      <!-- <footer class="app-footer">
+      <footer class="app-footer">
         
-      </footer> -->
+      </footer>
     </div>
 @endsection
 
 @section('script')
 <script>
 $(document).ready(function() {
-    var token = `{{ $token }}`
     
-    // var token = localStorage.getItem('token');
-    var table = $('.data-table').DataTable({
-        processing: true,
-        serverSide: true,
-        ajax: {
-            headers: {
-                'Authorization': 'Bearer ' + token
-            },
-            type: 'GET',
-            url: '{{ route('users.data') }}',
-            dataType: 'json',
-        },
-        columns: [
-              { data: 'id', name: 'id' },
-              { data: 'firstname', name: 'firstname' },
-              { data: 'lastname', name: 'lastname' },
-              { data: 'email', name: 'email' },
-              { data: 'contact_number', name: 'contact_number',orderable: false },
-              { data: 'state', name: 'state',orderable: true },
-              { data: 'city', name: 'city', orderable: true },
-              { data: 'action', name: 'action',orderable: false},
-        ],
-        dom: 'Bfrtip',
-        buttons: [
-            'csv', 'excel', 'pdf'
-        ]
-    });
 
 });
 </script>

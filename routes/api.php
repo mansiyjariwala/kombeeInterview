@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\AdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,5 +31,8 @@ Route::middleware('auth.token')->group(function () {
     Route::get('dashboard',[AuthController::class,'dashboard'])->name('dashboard');
     Route::get('/logout', [DashboardController::class, 'logout'])->name('logout');
     Route::get('/users/data', [DashboardController::class, 'userData'])->name('users.data');
+
+
+    Route::get('admin/dashboard',[AdminController::class,'dashboard'])->name('admin.dashboard');
 
 });
