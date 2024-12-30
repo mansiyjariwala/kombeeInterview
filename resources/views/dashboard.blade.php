@@ -8,8 +8,8 @@
         <div class="app-content-header">
           <div class="container-fluid">
           <div class="mb-3 d-flex justify-content-between align-items-center">
-                <h2>User List</h2>
-                <a href="#" class="btn btn-primary">
+                <h2>User List</h2>                
+                <a href="{{route('user.create')}}" class="btn btn-primary">
                     Create New User
                 </a>
             </div>
@@ -47,7 +47,7 @@ $(document).ready(function() {
                 'Authorization': 'Bearer ' + token
             },
             type: 'GET',
-            url: '{{ route('users.data') }}',
+            url: "{{ route('users.data') }}",
             dataType: 'json',
         },
         columns: [
@@ -64,6 +64,34 @@ $(document).ready(function() {
         buttons: [
             'csv', 'excel', 'pdf'
         ]
+    });
+
+    $(document).on('click','.delete-user', function() {
+        var userId = $(this).data('id');
+        console.log({userId});
+        
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    type: "GET",
+                    headers: {
+                        'Authorization': 'Bearer ' + token
+                    },
+                    url: "{{url('api/destroy')}}" + '/' + userId,
+                    success: function (data) {
+                        table.ajax.reload();
+                    }         
+                });
+            }
+        });
     });
 
 });

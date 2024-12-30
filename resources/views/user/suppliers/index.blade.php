@@ -1,32 +1,38 @@
 
 @extends('layouts.adminLte')
 
-@section('title', 'Permission')
+@section('title', 'Suppliers')
 
 @section('content')
-
       <main class="app-main">
         <div class="app-content-header">
-            <div class="container-fluid">
-                <div class="mb-3 d-flex justify-content-between align-items-center">
-                    <h2>Permission List</h2>
-                    <a href="{{route('permission.create')}}" class="btn btn-primary">
-                        Create New Permission
-                    </a>
-                </div>
-                <table class="table table-bordered data-table">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Description</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                </table>
+          <div class="container-fluid">
+          <div class="mb-3 d-flex justify-content-between align-items-center">
+                <h2>Supplier List</h2>
+                @if ($permissions->flatten()->contains('name', 'create'))
+                <a href="{{route('user.supplier.create')}}" class="btn btn-primary">
+                    Create New Supplier
+                </a>
+                @endif
             </div>
+            <table class="table table-bordered data-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>First Name</th>
+                  <th>Last Name</th>
+                  <th>Email</th>
+                  <th>Contact Number</th>
+                  <th>State</th>
+                  <th>City</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+            </table>
+          </div>
         </div>
-    </main>
+      </main>
+        
 @endsection
 
 @section('script')
@@ -43,13 +49,17 @@ $(document).ready(function() {
                 'Authorization': 'Bearer ' + token
             },
             type: 'GET',
-            url: "{{ route('permission.data') }}",
+            url: '{{ route('user.supplier.data') }}',
             dataType: 'json',
         },
         columns: [
               { data: 'id', name: 'id' },
-              { data: 'name', name: 'name' },
-              { data: 'description', name: 'description' },
+              { data: 'firstname', name: 'firstname' },
+              { data: 'lastname', name: 'lastname' },
+              { data: 'email', name: 'email' },
+              { data: 'contact_number', name: 'contact_number',orderable: false },
+              { data: 'state', name: 'state',orderable: true },
+              { data: 'city', name: 'city', orderable: true },
               { data: 'action', name: 'action',orderable: false},
         ],
         dom: 'Bfrtip',
@@ -58,9 +68,8 @@ $(document).ready(function() {
         ]
     });
 
-    $(document).on('click','.delete-permission', function() {
-        var permissionId = $(this).data('id');
-
+    $(document).on('click','.delete-user', function() {
+        var supplierId = $(this).data('id');
         Swal.fire({
             title: 'Are you sure?',
             text: "You won't be able to revert this!",
@@ -76,7 +85,7 @@ $(document).ready(function() {
                     headers: {
                         'Authorization': 'Bearer ' + token
                     },
-                    url: "{{url('api/admin/permission/destroy/')}}" + '/' + permissionId,
+                    url: "{{url('api/user/supplier/destroy/')}}" + '/' + supplierId,
                     success: function (data) {
                         table.ajax.reload();
                     }         

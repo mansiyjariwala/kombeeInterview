@@ -105,10 +105,11 @@ class AuthController extends Controller
         // $user = Auth::user();
         $userData = Session::get('user');
         $token = Session::get('token');
-        // dd($userData);
+        $user = User::with('roles.permissions')->find($userData->id);
+        $permissions = $user->roles->pluck('permissions')->flatten();
         if($userData)
         {
-            return view('dashboard',compact('userData','token'));
+            return view('dashboard',compact('userData','token','permissions'));
         }
         else
         {

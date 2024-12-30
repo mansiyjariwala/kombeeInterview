@@ -19,11 +19,20 @@ class PermissionController extends Controller
 
     public function permissionData()
     {
-        $permission = Permission::select(['id', 'name','description']);
+        $permission = Permission::with('roles')->select(['id', 'name','description']);
         return DataTables::of($permission)
-            ->addColumn('action', function($permission) {
-                return '<a href="'.route('permission.edit', $permission->id).'" class="btn btn-sm btn-primary">Edit</a>
-                    <button class="btn btn-sm btn-danger delete-permission" data-id="'.$permission->id.'">Delete</button>';
+            ->addColumn('action', function ($permission) {
+                $disabledPermissions = ['create', 'update', 'delete'];
+            
+                $isDisabled = in_array($permission->name, $disabledPermissions);
+            
+                $editButton = $isDisabled
+                ? '<a href="#" class="btn btn-sm btn-primary disabled" onclick="return false;">Edit</a>'
+                : '<a href="' . route('permission.edit', $permission->id) . '" class="btn btn-sm btn-primary">Edit</a>';
+        
+                $deleteButton = '<button class="btn btn-sm btn-danger delete-permission" data-id="' . $permission->id . '" ' . ($isDisabled ? 'disabled' : '') . '>Delete</button>';
+            
+                return $editButton . ' ' . $deleteButton;
             })
             ->rawColumns(['action'])
             ->make(true);

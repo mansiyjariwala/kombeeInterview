@@ -34,7 +34,9 @@ class UpdateSupplierRequest extends FormRequest
             'hobbies' => 'required|array|min:1',
             'hobbies.*' => 'string',
             'gender' => 'required|in:Male,Female',
-            'files.*' => 'mimes:jpeg,png,pdf|max:2048'
+            'files.*' => 'mimes:jpeg,png,pdf|max:2048',
+            'roles' => 'required|array|min:1',
+            'roles.*' => 'exists:roles,id',
         ];
     }
 }

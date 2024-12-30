@@ -31,13 +31,16 @@ Route::get('login',[AuthController::class,'loginIndex'])->name('login')->middlew
 Route::post('login', [AuthController::class, 'login'])->name('login.user');
 Route::get('cities/{state_id}', [AuthController::class, 'getCitiesByState'])->name('cities.state');
 
-
 Route::middleware('auth.token')->group(function () {
         // Route::middleware(['auth.token:3,4'])->group(function () {
             Route::get('dashboard', [AuthController::class, 'dashboard'])->name('dashboard');
             Route::get('/users/data', [DashboardController::class, 'userData'])->name('users.data');
-        // });
-
+            Route::get('/create', [DashboardController::class, 'create'])->name('user.create');
+            Route::post('/store', [DashboardController::class,'store'])->name('user.store');
+            Route::get('/destroy/{id}', [DashboardController::class, 'destroy'])->name('user.destroy');
+            Route::get('/edit/{id}', [DashboardController::class,'edit'])->name('user.edit');
+            Route::put('/{id}', [DashboardController::class,'update'])->name('user.update');
+            
             Route::prefix('admin')->group(function () {
                 Route::middleware('auth.token:1')->group(function () {
                 Route::get('dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');

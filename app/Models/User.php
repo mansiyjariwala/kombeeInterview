@@ -73,4 +73,9 @@ class User extends Authenticatable
     {
         return $this->belongsTo(City::class);
     }
+
+    public function permissions()
+    {
+        return $this->roles->load('permissions')->pluck('permissions')->flatten()->unique('id');
+    }
 }

@@ -133,7 +133,7 @@
             >
               <li class="nav-item">
                 @if(!(auth()->user() && auth()->user()->roles->pluck('id')->contains(1)))
-                  <a href="#" class="nav-link active">
+                  <a href="{{route('dashboard')}}" class="nav-link active">
                     <i class="nav-icon bi bi-speedometer"></i>
                     <p>
                         Dashboard
